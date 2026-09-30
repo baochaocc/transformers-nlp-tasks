@@ -218,6 +218,7 @@ table([
     ["8", "PyTorch 仅为 CPU 版本，GPU 未被使用", "pip 默认安装 CPU 版 torch", "从 download.pytorch.org 安装 torch==2.10.0+cu128，启用 GPU"],
     ["9", "大模型权重下载停滞", "ChatGLM-6B 等经镜像 LFS 下载为 0 字节", "记录为环境限制，未运行，报告中如实说明"],
     ["10", "12 GB 显存无法容纳 6B 模型 fp16", "fp16 需约 12.4 GB", "评估使用 int4/int8 量化方案，仍未运行"],
+    ["11", "运行脚本报 DLL load failed（应用程序控制策略已阻止此文件）", "Windows 智能应用控制(SAC)拦截未签名的 pyarrow DLL（arrow.dll 无数字签名，换版本也无效）", "用仓库内 local_datasets.py 替代 datasets.load_dataset 彻底绕开 pyarrow；并用 fix_environment.py 修正 sklearn 可选导入 pyarrow 时未捕获 ImportError 的问题"],
 ])
 
 # ================= 五、实验总结 =================
@@ -229,12 +230,22 @@ para("本实验完整打通了基于 transformers 的中文 NLP 多任务流程�
 
 # ================= 附录 =================
 heading("附录 A：实际运行截图", 1)
-para("（在此处粘贴 VS Code / 终端中实际运行各任务的截图，可参照 RUN_GUIDE.md 中的命令逐条运行并截图。）", indent=False)
-for _ in range(6):
-    doc.add_paragraph()
-para("截图建议包含：① 环境验证（nvidia-smi、torch.cuda.is_available()）；"
-     "② 各任务训练日志（含 global step、loss、Evaluation 与 best F1/BLEU 行）；"
-     "③ 工具类功能验证输出。", indent=False)
+para("以下为在 VS Code 终端中实际运行各任务的截图（运行命令见 RUN_GUIDE.md，"
+     "截图均取自本机真实运行过程）。", indent=False)
+SHOT_DIR = os.path.join(BASE, "screenshots", "vscode")
+shots = [
+    ("env.png", "图 A-1 实验环境验证（GPU / PyTorch / CUDA）"),
+    ("文本分类1.png", "图 A-2 文本分类 BERT-CLS 训练过程（20 epoch）"),
+    ("文本分类推理验证.png", "图 A-3 文本分类推理验证结果"),
+    ("文本匹配PointWise.png", "图 A-4 文本匹配 PointWise 训练过程"),
+    ("文本匹配DSSM.png", "图 A-5 文本匹配 DSSM 训练过程"),
+    ("文本匹配Sentence Transformer.png", "图 A-6 文本匹配 Sentence Transformer 训练过程"),
+    ("文本匹配SimCSE.png", "图 A-7 文本匹配 SimCSE 训练过程"),
+    ("信息抽取.png", "图 A-8 信息抽取 UIE 训练过程"),
+    ("文本生成.png", "图 A-9 文本生成 T5 中文问答"),
+]
+for _fname, _cap in shots:
+    picture(os.path.join(SHOT_DIR, _fname), _cap, width=15.5)
 
 heading("附录 B：实验运行命令", 1)
 para("完整可复制的运行命令见仓库根目录 RUN_GUIDE.md，涵盖环境准备、模型下载、各任务 GPU 训练命令与推理验证命令。")
