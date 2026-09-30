@@ -30,7 +30,7 @@ from functools import partial
 
 import torch
 from torch.utils.data import DataLoader
-from datasets import load_dataset
+from local_datasets import load_dataset
 from transformers import AutoModelForMaskedLM, AutoTokenizer, default_data_collator, get_scheduler
 
 from iTrainingLogger import iSummaryWriter

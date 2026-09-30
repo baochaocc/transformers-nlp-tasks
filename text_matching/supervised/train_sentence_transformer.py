@@ -28,7 +28,7 @@ from functools import partial
 import torch
 from torch.utils.data import DataLoader
 from matching_metric import MatchingMetric
-from datasets import load_dataset
+from local_datasets import load_dataset
 from transformers import AutoTokenizer, AutoModel, default_data_collator, get_scheduler
 
 from model import SentenceTransformer

@@ -32,7 +32,7 @@ from rich.console import Console
 
 import torch
 from torch.utils.data import DataLoader
-from datasets import load_dataset
+from local_datasets import load_dataset
 from transformers import AutoTokenizer, T5ForConditionalGeneration, default_data_collator, get_scheduler
 
 from utils import convert_example
