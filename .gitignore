@@ -35,3 +35,6 @@ pip_install.log
 .claude/
 Thumbs.db
 desktop.ini
+
+# ===== Office 打开文档时产生的临时文件 =====
+~$*
